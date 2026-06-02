@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Dr. Smith",
+    "type": "Teacher",
+    "extra": "Mathematics"
+  },
+  {
+    "id": 2,
+    "name": "Prof. Johnson",
+    "type": "Teacher",
+    "extra": "Physics"
+  },
+  {
+    "id": 3,
+    "name": "Ms. Davis",
+    "type": "Teacher",
+    "extra": "Chemistry"
+  }
+]

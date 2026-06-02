@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "Mr. Wilson",
+    "type": "Admission",
+    "extra": "Officer"
+  },
+  {
+    "id": 2,
+    "name": "Mrs. Taylor",
+    "type": "Admission",
+    "extra": "Clerk"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "John Driver",
+    "type": "Driver",
+    "extra": "Bus Driver"
+  },
+  {
+    "id": 2,
+    "name": "Mike Driver",
+    "type": "Driver",
+    "extra": "Van Driver"
+  }
+]
