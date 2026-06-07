@@ -259,6 +259,43 @@ int readJsonInt(const string& object, const string& key, int fallback = 0) {
     }
 }
 
+class Person {
+public:
+    int id = 0;
+    string name;
+    string email;
+    string password;
+
+    virtual ~Person() = default;
+    
+
+    string toJsonCommon() const {
+        ostringstream out;
+        out << "  {\n";
+        out << "    \"id\": " << id << ",\n";
+        out << "    \"name\": " << jsonString(name) << ",\n";
+        out << "    \"email\": " << jsonString(email) << ",\n";
+        out << "    \"password\": " << jsonString(password) << "\n";
+        out << "  }";
+        return out.str();
+    }
+
+    bool authenticate(const string& loginEmail, const string& loginPassword) const {
+        return email == loginEmail && password == loginPassword;
+    }
+
+    template <typename T>
+    static bool login(const string& loginEmail, const string& loginPassword, const vector<T>& list, T& out) {
+        for (const auto& item : list) {
+            if (item.authenticate(loginEmail, loginPassword)) {
+                out = item;
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
 template <typename T, typename Loader>
 vector<T> loadJsonList(const string& file, Loader loader) {
     vector<T> items;
@@ -454,22 +491,10 @@ public:
     }
 };
 
-class Student {
+class Student : public Person {
 public:
-    int id = 0;
-    string name;
-    string email;
-    string password;
-
     string toJson() const {
-        ostringstream out;
-        out << "  {\n";
-        out << "    \"id\": " << id << ",\n";
-        out << "    \"name\": " << jsonString(name) << ",\n";
-        out << "    \"email\": " << jsonString(email) << ",\n";
-        out << "    \"password\": " << jsonString(password) << "\n";
-        out << "  }";
-        return out.str();
+        return toJsonCommon();
     }
 
     static Student fromJson(const string& object) {
@@ -492,13 +517,7 @@ public:
     }
 
     static bool login(const string& email, const string& password, Student& out) {
-        for (const auto& student : loadAll()) {
-            if (student.email == email && student.password == password) {
-                out = student;
-                return true;
-            }
-        }
-        return false;
+        return Person::login(email, password, loadAll(), out);
     }
 
     bool pickTarget(Complaint& c, const string& file, const string& type, const string& label) {
@@ -668,22 +687,10 @@ public:
     }
 };
 
-class Admin {
+class Admin : public Person {
 public:
-    int id = 0;
-    string name;
-    string email;
-    string password;
-
     string toJson() const {
-        ostringstream out;
-        out << "  {\n";
-        out << "    \"id\": " << id << ",\n";
-        out << "    \"name\": " << jsonString(name) << ",\n";
-        out << "    \"email\": " << jsonString(email) << ",\n";
-        out << "    \"password\": " << jsonString(password) << "\n";
-        out << "  }";
-        return out.str();
+        return toJsonCommon();
     }
 
     static Admin fromJson(const string& object) {
@@ -706,13 +713,7 @@ public:
     }
 
     static bool login(const string& email, const string& password, Admin& out) {
-        for (const auto& admin : loadAll()) {
-            if (admin.email == email && admin.password == password) {
-                out = admin;
-                return true;
-            }
-        }
-        return false;
+        return Person::login(email, password, loadAll(), out);
     }
 
     static void ensureDefault() {
